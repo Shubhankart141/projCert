@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-// Maintainer : Raveendiran RR
+// Maintainer : Shubhankar Thapliyal
 // Script to deploy a simple PHP website pipeline
 // 1. Download Config from GIt repo - master node
 // 2. Update the slave machine with docker and Open JDK - From master node using Ansible
@@ -22,7 +22,7 @@ node ('master')
             stage('Download configuration files (Playbook, groovy script) from git repo - Master server')
             {
                 echo'===========Download config from Git repo============='            
-                    git branch: 'config', url: 'https://github.com/Raveendiran-RR/simple-php-website.git'
+                    git branch: 'config', url: 'https://github.com/Shubhankart141/projCert.git'
                 }
                 stage('Run Ansible playbook (from Master Server) to install docker on test server')
                 {
@@ -49,7 +49,7 @@ node ('Slave')
             stage ('Download PHP-Website files from git repo - Test Server')
             {
                 echo'======Download PHP-Website files========'
-                    git 'https://github.com/Raveendiran-RR/simple-php-website.git'
+                    git 'https://github.com/Shubhankart141/projCert.git'
             }
                 
             stage('Build / deploy to Test server stage ')
@@ -59,9 +59,9 @@ node ('Slave')
                 // if the remove container command fails, tweek the shell out put as success to continue the execution
                 sh 'sudo docker rm -f website-test || true'
                 //build the latest image
-                sh 'sudo docker build . -t smartbond/simple-php-website:v${BUILD_NUMBER} '
+                sh 'sudo docker build . -t shubhankart/projCert:v${BUILD_NUMBER} '
                 //start the container 
-                sh 'sudo docker run -itd -p 80:80 --name website-test smartbond/simple-php-website:v${BUILD_NUMBER}'               
+                sh 'sudo docker run -itd -p 80:80 --name website-test shubhankart/projCert:v${BUILD_NUMBER}'               
             }
                 
             stage ('Test about page')
@@ -72,7 +72,7 @@ node ('Slave')
                 {
                     echo 'test passed !!! '
                     // if the test is successful push the image to docker registry
-                    sh 'sudo docker push smartbond/simple-php-website:v${BUILD_NUMBER}'
+                    sh 'sudo docker push shubhankart/projCert:v${BUILD_NUMBER}'
                     test_result="PASS"
                 }
                 else
@@ -80,7 +80,7 @@ node ('Slave')
                     echo ' test failed. '
                     sh ' sudo docker rm -f website-test || true'
                     echo '--- container deleted --------'
-                    sh ' sudo docker rmi -f smartbond/simple-php-website:v${BUILD_NUMBER} || true '
+                    sh ' sudo docker rmi -f shubhankart/projCert:v${BUILD_NUMBER} || true '
                     echo '------- image deleted --------'
                 }
                     
@@ -97,7 +97,7 @@ node ('Slave')
             echo "${err}"
             echo 'code has errors. Deleting the image smartbond/simple-php-website:v${BUILD_NUMBER} and running images'
             sh'sudo docker rm -f website-test || true'
-            sh'sudo docker rmi -f smartbond/simple-php-website:v${BUILD_NUMBER}' || true
+            sh'sudo docker rmi -f shubhankart/projCert:v${BUILD_NUMBER}' || true
         }
             finally
         {
@@ -114,7 +114,7 @@ node('master')
                 //execute the ansible playbook to deploy the code on production
                 //sh 'ansible-playbook Deploy-prod-website.yml'                
                 sh 'sudo docker rm -f website-prod ||true'
-                sh 'sudo docker run -itd --name website-prod -p 80:80 smartbond/simple-php-website:v${BUILD_NUMBER}'
+                sh 'sudo docker run -itd --name website-prod -p 80:80 shubhankart/projCert:v${BUILD_NUMBER}'
             }
             else
             {
