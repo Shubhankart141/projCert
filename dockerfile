@@ -1,8 +1,8 @@
 #download the image with PHP and apache
-FROM devopsedu/webapp
+FROM shubhankart/webapp
 
 #docker file author and  maintained by 
-MAINTAINER Raveendiran-RR
+MAINTAINER Shubhankar-Thapliyal
 
 #delete the default contents
 RUN rm -f  /var/www/html/*
