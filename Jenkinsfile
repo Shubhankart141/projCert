@@ -42,7 +42,7 @@ node ('master')
     }
     
     
-node ('slave')
+node ('Slave')
     {
         try
         {
