@@ -106,7 +106,7 @@ node ('slave')
     }
 node('master')
     {
-        stage('deploy to production')
+        stage('Deploy to production')
         {
             if(test_result=="PASS")
             {
