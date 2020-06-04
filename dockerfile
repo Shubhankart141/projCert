@@ -1,5 +1,5 @@
 #download the image with PHP and apache
-FROM shubhankart/webapp
+FROM devopsedu/webapp
 
 #docker file author and  maintained by 
 MAINTAINER Shubhankar-Thapliyal
