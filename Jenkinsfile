@@ -59,9 +59,9 @@ node ('slave')
                 // if the remove container command fails, tweek the shell out put as success to continue the execution
                 sh 'sudo docker rm -f website-test || true'
                 //build the latest image
-                sh 'sudo docker build . -t shubhankart/projCert:v${BUILD_NUMBER} '
+                sh 'sudo docker build . -t shubhankart/projcert:v${BUILD_NUMBER} '
                 //start the container 
-                sh 'sudo docker run -itd -p 80:80 --name website-test shubhankart/projCert:v${BUILD_NUMBER}'               
+                sh 'sudo docker run -itd -p 80:80 --name website-test shubhankart/projcert:v${BUILD_NUMBER}'               
             }
                 
             stage ('Test about page')
@@ -72,7 +72,7 @@ node ('slave')
                 {
                     echo 'test passed !!! '
                     // if the test is successful push the image to docker registry
-                    sh 'sudo docker push shubhankart/projCert:v${BUILD_NUMBER}'
+                    sh 'sudo docker push shubhankart/projcert:v${BUILD_NUMBER}'
                     test_result="PASS"
                 }
                 else
@@ -80,7 +80,7 @@ node ('slave')
                     echo ' test failed. '
                     sh ' sudo docker rm -f website-test || true'
                     echo '--- container deleted --------'
-                    sh ' sudo docker rmi -f shubhankart/projCert:v${BUILD_NUMBER} || true '
+                    sh ' sudo docker rmi -f shubhankart/projcert:v${BUILD_NUMBER} || true '
                     echo '------- image deleted --------'
                 }
                     
@@ -95,9 +95,9 @@ node ('slave')
         {
             echo '****** Error ********'
             echo "${err}"
-            echo 'code has errors. Deleting the image smartbond/simple-php-website:v${BUILD_NUMBER} and running images'
+            echo 'code has errors. Deleting the image shubhankart/projcert:v${BUILD_NUMBER} and running images'
             sh'sudo docker rm -f website-test || true'
-            sh'sudo docker rmi -f shubhankart/projCert:v${BUILD_NUMBER}' || true
+            sh'sudo docker rmi -f shubhankart/projcert:v${BUILD_NUMBER}' || true
         }
             finally
         {
@@ -114,7 +114,7 @@ node('master')
                 //execute the ansible playbook to deploy the code on production
                 //sh 'ansible-playbook Deploy-prod-website.yml'                
                 sh 'sudo docker rm -f website-prod ||true'
-                sh 'sudo docker run -itd --name website-prod -p 80:80 shubhankart/projCert:v${BUILD_NUMBER}'
+                sh 'sudo docker run -itd --name website-prod -p 80:80 shubhankart/projcert:v${BUILD_NUMBER}'
             }
             else
             {
