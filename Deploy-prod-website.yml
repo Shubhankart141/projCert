@@ -17,7 +17,7 @@
   - name: Running the container
     docker_container:
         name: website-prod
-        image: smartbond/simple-php-website:latest
+        image: shubhankart/projCert
         state: running
         ports:
           -"80:80"
